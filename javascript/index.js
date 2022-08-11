@@ -23,8 +23,19 @@ testimonials.forEach(testimonial => {
  */
 document.querySelector('#testimonials-box').style.height = `${document.querySelector('#testimonials-box .container').offsetHeight}px`;
 
+let navLock = true;
 document.querySelectorAll('.testimonial-nav-button').forEach(nav => {
     nav.addEventListener('click', (event) => {
+        if(!navLock) return;
+        navLock = false;
+        /**
+         * Since the container is moved with animation that takes 400ms we need to release
+         * the lock 400ms th click handler to prevent race condition when user click twice
+         */
+         setTimeout(() => {
+            navLock = true;
+        }, 400);
+
         let direction = nav.dataset.direction;
         let container = document.querySelector('#testimonials-box .container');
         let offset = document.querySelector('.testimonial-component').offsetWidth;
@@ -34,13 +45,11 @@ document.querySelectorAll('.testimonial-nav-button').forEach(nav => {
         let right = parseInt(styles.getPropertyValue('right'));
         let gap = parseInt(styles.getPropertyValue('gap'));
         if(direction == 'left') {
-            if(left >= 0) return;
-            let moveBy = left + offset + gap;
-            container.style.left = `${moveBy}px`;
+            if(left < 0)
+                container.style.left = `${left + offset + gap}px`;
         } else {
-            if(right >= 0) return;
-            let moveBy = left - offset - gap;
-            container.style.left = `${moveBy}px`;
+            if(right < 0)
+                container.style.left = `${left - offset - gap}px`;
         }
     });
 });

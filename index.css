@@ -93,6 +93,7 @@ h1 {
     left: 0;
     display: flex;
     gap: 14px;
+    transition: left 0.4s ease;
 }
 
 .testimonial-component {
