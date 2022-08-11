@@ -22,3 +22,25 @@ testimonials.forEach(testimonial => {
  * so we need to set the height explicitly
  */
 document.querySelector('#testimonials-box').style.height = `${document.querySelector('#testimonials-box .container').offsetHeight}px`;
+
+document.querySelectorAll('.testimonial-nav-button').forEach(nav => {
+    nav.addEventListener('click', (event) => {
+        let direction = nav.dataset.direction;
+        let container = document.querySelector('#testimonials-box .container');
+        let offset = document.querySelector('.testimonial-component').offsetWidth;
+
+        let styles = window.getComputedStyle(container);
+        let left = parseInt(styles.getPropertyValue('left'));
+        let right = parseInt(styles.getPropertyValue('right'));
+        let gap = parseInt(styles.getPropertyValue('gap'));
+        if(direction == 'left') {
+            if(left >= 0) return;
+            let moveBy = left + offset + gap;
+            container.style.left = `${moveBy}px`;
+        } else {
+            if(right >= 0) return;
+            let moveBy = left - offset - gap;
+            container.style.left = `${moveBy}px`;
+        }
+    });
+});
