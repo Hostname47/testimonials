@@ -161,6 +161,7 @@ h1 {
 
 .navigation-buttons-box {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -182,12 +183,47 @@ h1 {
     fill: #2f3338;
 }
 
-@media screen and (max-width: 900px) {
-    #app {
-        padding: 0;
+.navigation-types-box {
+    position: relative;
+    display: flex;
+    gap: 6px;
+}
+
+.navigation-type {
+    width: 30px;
+    height: 30px;
+    border: unset;
+    border-radius: 50%;
+    background-color: unset;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.navigation-type .icon {
+    width: 18px;
+    height: 18px;
+    fill: #191f22;
+}
+
+.navigation-types-box .selection {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e7f0f4;
+}
+
+@media screen and (max-width: 936px) {
+    #testimonials-section {
+        width: 595px;
     }
 }
 
-@media screen and (max-width: 750px) {
-    
+@media screen and (max-width: 624px) {
+    #testimonials-section {
+        width: 290px;
+    }
 }
