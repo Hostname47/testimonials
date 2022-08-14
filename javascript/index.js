@@ -53,3 +53,24 @@ document.querySelectorAll('.testimonial-nav-button').forEach(nav => {
         }
     });
 });
+
+document.querySelectorAll('.navigation-type').forEach((button) => {
+    button.addEventListener('click', function() {
+        if(this.dataset.selected == 1) return;
+
+        let type = this.dataset.type;
+        let navsButton = document.querySelector('#arrow-buttons-navigation');
+        let dragButton = document.querySelector('#drag-and-drop-navigation');
+        let selection = document.querySelector('#testimonials-section .navigation-types-box .selection');
+        
+        if(type == 'arrow-buttons') {
+            navsButton.dataset.selected = 1;
+            dragButton.dataset.selected = 0;
+            selection.style.left = '0px';
+        } else {
+            navsButton.dataset.selected = 0;
+            dragButton.dataset.selected = 1;
+            selection.style.left = '32px';
+        }
+    });
+});

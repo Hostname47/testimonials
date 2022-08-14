@@ -186,10 +186,11 @@ h1 {
 .navigation-types-box {
     position: relative;
     display: flex;
-    gap: 6px;
+    gap: 2px;
 }
 
 .navigation-type {
+    padding: 0;
     width: 30px;
     height: 30px;
     border: unset;
@@ -214,6 +215,7 @@ h1 {
     height: 30px;
     border-radius: 50%;
     background-color: #e7f0f4;
+    transition: all 0.2s ease;
 }
 
 @media screen and (max-width: 936px) {
