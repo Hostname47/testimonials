@@ -31,6 +31,24 @@ body {
 
 .none { display: none !important; }
 
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+ /* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.hidden-visibility {
+    visibility: hidden;
+}
+
 .my8 {
     margin-top: 8px;
     margin-bottom: 8px;
@@ -172,6 +190,7 @@ h1 {
     border-radius: 50%;
     border: 1px solid #bbc6d2;
     background-color: unset;
+    outline: unset;
 }
 
 .navigation-buttons-box .nav-button:hover {
@@ -198,6 +217,7 @@ h1 {
     background-color: unset;
     cursor: pointer;
     transition: all 0.3s ease;
+    outline: unset;
 }
 
 .navigation-type .icon {

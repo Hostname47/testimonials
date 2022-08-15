@@ -62,15 +62,61 @@ document.querySelectorAll('.navigation-type').forEach((button) => {
         let navsButton = document.querySelector('#arrow-buttons-navigation');
         let dragButton = document.querySelector('#drag-and-drop-navigation');
         let selection = document.querySelector('#testimonials-section .navigation-types-box .selection');
+        let container = document.querySelector('#testimonials-box .container');
         
         if(type == 'arrow-buttons') {
             navsButton.dataset.selected = 1;
             dragButton.dataset.selected = 0;
             selection.style.left = '0px';
+            // Display navigation buttons
+            document.querySelectorAll('.testimonial-nav-button').forEach((button) => { button.classList.remove('hidden-visibility') });
+            // Detach draging effect from container
+            detachDragEffect(container);
         } else {
             navsButton.dataset.selected = 0;
             dragButton.dataset.selected = 1;
             selection.style.left = '32px';
+            // Hide navigation buttons
+            document.querySelectorAll('.testimonial-nav-button').forEach((button) => { button.classList.add('hidden-visibility') });
+            // Attach draging effect to container
+            attachDragEffect(container);
         }
     });
 });
+
+function attachDragEffect(container) {
+    container.classList.add('grabbable');
+    
+    ['mousedown', 'touchstart'].forEach( evt => 
+        container.addEventListener(evt, pickup, true)
+    );
+    
+    ['mousemove', 'touchmove'].forEach( evt => 
+        container.addEventListener(evt, move, true)
+    );
+
+    ['mouseup', 'touchend'].forEach( evt => 
+        container.addEventListener(evt, drop, true)
+    );
+}
+
+function detachDragEffect(container) {
+    container.classList.remove('grabbable');
+}
+
+let isDown = false;
+
+function pickup(e) {
+    isDown = true;
+    
+}
+
+function move(e) {
+    if (isDown) {
+        // Move the container
+    }
+}
+
+function drop(e) {
+    isDown = false;
+}
