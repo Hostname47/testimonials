@@ -86,37 +86,68 @@ document.querySelectorAll('.navigation-type').forEach((button) => {
 
 function attachDragEffect(container) {
     container.classList.add('grabbable');
+    container.classList.remove('annimation-04s');
     
-    ['mousedown', 'touchstart'].forEach( evt => 
-        container.addEventListener(evt, pickup, true)
+    ['mousedown', 'touchstart'].forEach( event => 
+        container.addEventListener(event, pickup, true)
     );
     
-    ['mousemove', 'touchmove'].forEach( evt => 
-        container.addEventListener(evt, move, true)
+    ['mousemove', 'touchmove'].forEach( event => 
+        container.addEventListener(event, move, true)
     );
 
-    ['mouseup', 'touchend'].forEach( evt => 
-        container.addEventListener(evt, drop, true)
+    ['mouseup', 'touchend'].forEach( event => 
+        container.addEventListener(event, drop, true)
     );
 }
 
 function detachDragEffect(container) {
     container.classList.remove('grabbable');
+    container.classList.add('annimation-04s');
+
+    ['mousedown', 'touchstart'].forEach( event => 
+        container.removeEventListener(event, pickup, true)
+    );
+    
+    ['mousemove', 'touchmove'].forEach( event => 
+        container.removeEventListener(event, move, true)
+    );
+
+    ['mouseup', 'touchend'].forEach( event => 
+        container.removeEventListener(event, drop, true)
+    );
 }
 
 let isDown = false;
+let mouse = {
+    leftWhenPickup: 0,
+    xPositionWhenPickup: 0
+};
 
-function pickup(e) {
-    isDown = true;
+function pickup(event) {
+    mouse.leftWhenPickup = parseInt(window.getComputedStyle(event.currentTarget).getPropertyValue('left'));
+    mouse.xPositionWhenPickup = event.clientX;
     
+    isDown = true;
 }
 
-function move(e) {
-    if (isDown) {
-        // Move the container
+function move(event) {
+    if(isDown) {
+        let container = event.currentTarget;
+        let styles = window.getComputedStyle(container);
+        let left = mouse.leftWhenPickup + event.clientX - mouse.xPositionWhenPickup;
+        let right = parseInt(styles.getPropertyValue('right'));
+        
+        if(left > 0) {
+            container.style.left = 0;
+        } else if(right > 0) {
+            container.style.right = 0;
+        } else {
+            container.style.left = `${left}px`;
+        }
     }
 }
 
-function drop(e) {
+function drop(event) {
     isDown = false;
 }

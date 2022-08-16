@@ -36,6 +36,7 @@ body {
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+    user-select: none;
 }
 
  /* (Optional) Apply a "closed-hand" cursor during drag operation. */
@@ -111,6 +112,9 @@ h1 {
     left: 0;
     display: flex;
     gap: 14px;
+}
+
+.annimation-04s {
     transition: left 0.4s ease;
 }
 
