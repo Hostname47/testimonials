@@ -88,66 +88,74 @@ function attachDragEffect(container) {
     container.classList.add('grabbable');
     container.classList.remove('annimation-04s');
     
-    ['mousedown', 'touchstart'].forEach( event => 
-        container.addEventListener(event, pickup, true)
-    );
-    
-    ['mousemove', 'touchmove'].forEach( event => 
-        container.addEventListener(event, move, true)
-    );
-
-    ['mouseup', 'touchend'].forEach( event => 
-        container.addEventListener(event, drop, true)
-    );
+    ['mousedown', 'touchstart'].forEach( event => container.addEventListener(event, pickup, true));
+    ['mousemove', 'touchmove'].forEach( event => container.addEventListener(event, move, true));
+    ['mouseup', 'touchend'].forEach( event => container.addEventListener(event, drop, true));
 }
 
 function detachDragEffect(container) {
+    // Remove grabbable class from container
     container.classList.remove('grabbable');
+    // We add animation to container to be applied to navigation buttons again
     container.classList.add('annimation-04s');
 
-    ['mousedown', 'touchstart'].forEach( event => 
-        container.removeEventListener(event, pickup, true)
-    );
-    
-    ['mousemove', 'touchmove'].forEach( event => 
-        container.removeEventListener(event, move, true)
-    );
+    // detach all the drag effect events from container
+    ['mousedown', 'touchstart'].forEach( event => container.removeEventListener(event, pickup, true));
+    ['mousemove', 'touchmove'].forEach( event => container.removeEventListener(event, move, true));
+    ['mouseup', 'touchend'].forEach( event => container.removeEventListener(event, drop, true));
 
-    ['mouseup', 'touchend'].forEach( event => 
-        container.removeEventListener(event, drop, true)
-    );
+    /**
+     * After switching from drag-drop effect to navigation effect, we need to set the container
+     * left to 0 for consistency, because navigation buttons are based on fixed shift which is
+     * the width of one testimonial.
+     */
+    container.style.left = '0px';
+    container.style.right = 'auto';
 }
 
 let isDown = false;
-let mouse = {
-    leftWhenPickup: 0,
-    xPositionWhenPickup: 0
+let positions = {
+    leftWhenPickup: 0, // left value of container when user mouse click pressed
+    xPositionWhenPickup: 0, // x position of the mouse relative to the whole document to calculate the shifting distance
+    rightMaximumAsLeft: (function() { // Determine the maximum left value to be applied as right, so when the container reach the end it needs to stop
+        let container = document.querySelector('#testimonials-box .container');
+        return (container.clientWidth - container.parentNode.clientWidth) * -1;
+    })()
 };
 
+// The user first click (touch the screen) on the container before moving the mouse
 function pickup(event) {
-    mouse.leftWhenPickup = parseInt(window.getComputedStyle(event.currentTarget).getPropertyValue('left'));
-    mouse.xPositionWhenPickup = event.clientX;
-    
+    positions.leftWhenPickup = parseInt(window.getComputedStyle(event.currentTarget).getPropertyValue('left'));
+    positions.xPositionWhenPickup = event.clientX;
     isDown = true;
 }
 
+// The user start moving the mouse (or touch screen)
 function move(event) {
     if(isDown) {
         let container = event.currentTarget;
-        let styles = window.getComputedStyle(container);
-        let left = mouse.leftWhenPickup + event.clientX - mouse.xPositionWhenPickup;
-        let right = parseInt(styles.getPropertyValue('right'));
-        
-        if(left > 0) {
-            container.style.left = 0;
-        } else if(right > 0) {
+        let left = positions.leftWhenPickup + event.clientX - positions.xPositionWhenPickup;
+
+        if(left < positions.rightMaximumAsLeft) {
             container.style.right = 0;
+            container.style.left = 'auto';
+        } else if(left > 0) {
+            container.style.left = 0;
+            container.style.right = 'auto';
         } else {
             container.style.left = `${left}px`;
+            container.style.right = `auto`;
         }
     }
 }
 
+// The user release mouse click (orr screen touch)
 function drop(event) {
     isDown = false;
+}
+
+function leave(event) {
+    isDown = false;
+
+    console.log('leave');
 }
