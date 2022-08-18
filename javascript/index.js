@@ -91,7 +91,7 @@ function attachDragEffect(container) {
     ['mousedown', 'touchstart'].forEach( event => container.addEventListener(event, pickup, true));
     ['mousemove', 'touchmove'].forEach( event => container.addEventListener(event, move, true));
     ['mouseup', 'touchend'].forEach( event => container.addEventListener(event, drop, true));
-    document.parentNode.addEventListener('mouseleave', leave, true)
+    container.parentNode.addEventListener('mouseleave', leave, true)
 }
 
 function detachDragEffect(container) {
@@ -104,7 +104,7 @@ function detachDragEffect(container) {
     ['mousedown', 'touchstart'].forEach( event => container.removeEventListener(event, pickup, true));
     ['mousemove', 'touchmove'].forEach( event => container.removeEventListener(event, move, true));
     ['mouseup', 'touchend'].forEach( event => container.removeEventListener(event, drop, true));
-    document.parentNode.removeEventListener('mouseleave', leave, true)
+    container.parentNode.removeEventListener('mouseleave', leave, true)
 
     /**
      * After switching from drag-drop effect to navigation effect, we need to set the container
