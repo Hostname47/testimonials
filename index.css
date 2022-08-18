@@ -5,6 +5,11 @@ body {
     margin: 0;
 }
 
+input, textarea, button {
+  -webkit-tap-highlight-color: transparent;
+  outline: unset;
+}
+
 #app {
     display: flex;
     flex-direction: column;
@@ -195,10 +200,9 @@ h1 {
     border-radius: 50%;
     border: 1px solid #bbc6d2;
     background-color: unset;
-    outline: unset;
 }
 
-.navigation-buttons-box .nav-button:hover {
+.navigation-buttons-box .nav-button:hover, .navigation-buttons-box .nav-button:active {
     background-color: #FBFBFB;
 }
 
@@ -222,7 +226,6 @@ h1 {
     background-color: unset;
     cursor: pointer;
     transition: all 0.3s ease;
-    outline: unset;
 }
 
 .navigation-type .icon {
