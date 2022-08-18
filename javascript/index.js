@@ -91,6 +91,7 @@ function attachDragEffect(container) {
     ['mousedown', 'touchstart'].forEach( event => container.addEventListener(event, pickup, true));
     ['mousemove', 'touchmove'].forEach( event => container.addEventListener(event, move, true));
     ['mouseup', 'touchend'].forEach( event => container.addEventListener(event, drop, true));
+    document.parentNode.addEventListener('mouseleave', leave, true)
 }
 
 function detachDragEffect(container) {
@@ -103,6 +104,7 @@ function detachDragEffect(container) {
     ['mousedown', 'touchstart'].forEach( event => container.removeEventListener(event, pickup, true));
     ['mousemove', 'touchmove'].forEach( event => container.removeEventListener(event, move, true));
     ['mouseup', 'touchend'].forEach( event => container.removeEventListener(event, drop, true));
+    document.parentNode.removeEventListener('mouseleave', leave, true)
 
     /**
      * After switching from drag-drop effect to navigation effect, we need to set the container
@@ -126,7 +128,7 @@ let positions = {
 // The user first click (touch the screen) on the container before moving the mouse
 function pickup(event) {
     positions.leftWhenPickup = parseInt(window.getComputedStyle(event.currentTarget).getPropertyValue('left'));
-    positions.xPositionWhenPickup = event.clientX;
+    positions.xPositionWhenPickup = (event.clientX) ? event.clientX : event.touches[0].clientX;
     isDown = true;
 }
 
@@ -134,7 +136,7 @@ function pickup(event) {
 function move(event) {
     if(isDown) {
         let container = event.currentTarget;
-        let left = positions.leftWhenPickup + event.clientX - positions.xPositionWhenPickup;
+        let left = positions.leftWhenPickup + ((event.clientX) ? event.clientX : event.touches[0].clientX) - positions.xPositionWhenPickup;
 
         if(left < positions.rightMaximumAsLeft) {
             container.style.right = 0;
@@ -155,7 +157,5 @@ function drop(event) {
 }
 
 function leave(event) {
-    isDown = false;
-
-    console.log('leave');
+    if(event.target.id === 'testimonials-box') isDown = false;
 }

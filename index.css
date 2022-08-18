@@ -129,6 +129,7 @@ h1 {
     width: 290px;
     height: max-content;
     box-sizing: border-box;
+    z-index: 1;
 }
 
 .testimonial-component .avatar-wrapper {
